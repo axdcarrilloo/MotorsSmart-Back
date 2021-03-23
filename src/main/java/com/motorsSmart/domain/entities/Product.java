@@ -19,11 +19,12 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "product_name",unique = true)
     private String productName;
 
     private Integer quantity;
 
+    @Column(name = "date_Admission")
     private Timestamp dateAdmission;
 
     @OneToOne
