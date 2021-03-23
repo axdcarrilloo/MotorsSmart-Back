@@ -22,9 +22,14 @@ public class ProductService {
     @Autowired
     private UserService userService;
 
-    public Integer deleteProducByName(String productName){
+    public List<Product> getProductByContrains(String contrains){
+        return productRepository.searchProductByContrains(contrains + "%");
+    }
+
+    public Integer deleteProducByNameAndUserRegister(String productName, Long idUserRegister){
         Integer result = 0;
-        Product product = productRepository.findByProductName(productName);
+        User user = userService.getByUserId(idUserRegister);
+        Product product = productRepository.findByProductNameAndUserRegister(productName, user);
         if(Objects.nonNull(product)){
             productRepository.deleteById(product.getId());
             result = 1;

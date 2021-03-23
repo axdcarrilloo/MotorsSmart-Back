@@ -1,9 +1,7 @@
 package com.motorsSmart.controllers;
 
-import com.motorsSmart.MotorsSmartApplication;
 import com.motorsSmart.domain.dtos.ProductDTO;
 import com.motorsSmart.domain.entities.Product;
-import com.motorsSmart.env.MotorsEnvironmen;
 import com.motorsSmart.services.ProductService;
 import com.motorsSmart.utils.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +14,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = Route.BASE + Route.PRODUCTS, produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "${environmen.url.origins}", methods = {RequestMethod.GET, RequestMethod.POST
-    ,RequestMethod.DELETE})
+@CrossOrigin(origins = "${environmen.url.origins}")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
-    @DeleteMapping(Route.DELETE)
-    public ResponseEntity<Integer> deleteProducByName(@PathVariable String productName){
-        return new ResponseEntity<Integer>(productService.deleteProducByName(productName), HttpStatus.OK);
+    @GetMapping(Route.GETBY_CONTRAINS)
+    public ResponseEntity<List<Product>> getProductByContrains(@PathVariable String contrains){
+        return new ResponseEntity<List<Product>>(productService.getProductByContrains(contrains), HttpStatus.OK);
+    }
+
+    @DeleteMapping(Route.DELETE_PRODUCT)
+    public ResponseEntity<Integer> deleteProducByName(@PathVariable String productName, @PathVariable Long idUserRegister){
+        return new ResponseEntity<Integer>(productService.deleteProducByNameAndUserRegister(productName, idUserRegister), HttpStatus.OK);
     }
 
     @GetMapping(Route.GETALL)
