@@ -45,4 +45,9 @@ public class ProductController {
         return new ResponseEntity<Product>(productService.getProductByName(name), HttpStatus.OK);
     }
 
+    @PutMapping(Route.UPDATE)
+    public ResponseEntity<Long> updateProductById(@RequestBody Product product){
+        return new ResponseEntity<Long>(productService.updateProductById(product), HttpStatus.OK);
+    }
+
 }
