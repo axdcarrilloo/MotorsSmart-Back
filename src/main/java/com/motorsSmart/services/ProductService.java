@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,11 +23,14 @@ public class ProductService {
     @Autowired
     private UserService userService;
 
-    public Long updateProductById(Product product){
+    public Long updateProductById(String name, ProductDTO product){
         Long result = 0l;
-        if(Objects.nonNull( productRepository.findById(product.getId()).get())){
-            productRepository.updateProductById(product.getId(), product.getProductName(), product.getQuantity(), product.getUserUpdate());
+        Product proOptional = productRepository.findByProductName(name);
+        User userEdit = userService.getByUserId(product.getIdUser());
+        if(Objects.nonNull(proOptional) && Objects.nonNull(userEdit)){
+            productRepository.updateProductById(proOptional.getId(), product.getProductName(), product.getQuantity(), userEdit.getId());
             result = 1l;
+            int mitad = result. / 2 ;
         }
         return result;
     }
@@ -75,6 +79,33 @@ public class ProductService {
     public Product getProductByName(String name){
         log.info("ProductService.java - getProductByName() -> Connsultando producto por nombre");
         return productRepository.findByProductName(name);
+    }
+
+    public void prueba(){
+        String[] myArray = {"a", "b", "c", "d", "d", "c", "b", "a"};
+        int mitadArray = myArray.length / 2 ;
+        System.out.println(myArray.length);
+        String[] arrayAux = {};
+        String[] arrayAux1 = {};
+        for(int i = 0; i<mitadArray; i++){
+            arrayAux[i] = myArray[i];
+        }
+        for(int i = mitadArray; i<myArray.length; i++){
+            arrayAux1[i] = myArray[i];
+        }
+        Arrays.sort(arrayAux1);
+        Boolean validate = false;
+        for(int i = 0; i<mitadArray; i++){
+            if(arrayAux[i].equals(arrayAux1[i])){
+                validate = true;
+            }
+        }
+        if(validate){
+            System.out.println("Symmetric");
+        }else{
+            System.out.println("Asymmetric");
+            long i = new Long("822");
+        }
     }
 
 }

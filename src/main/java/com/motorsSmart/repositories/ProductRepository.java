@@ -20,7 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Modifying
     @Query(value = ConstantsSQL.UPDATE_PRODUCT, nativeQuery = true)
     void updateProductById(@Param("id") Long id, @Param("productName") String productName,
-                           @Param("quantity") Integer quantity, @Param("userUpdate") User userUpdate);
+                           @Param("quantity") Integer quantity, @Param("idUserUpdate") Long idUserUpdate);
 
     Product findByProductName(String name);
 
